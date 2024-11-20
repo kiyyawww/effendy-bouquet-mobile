@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:effendy_bouquet/widgets/product_card.dart';
 import 'package:effendy_bouquet/widgets/left_drawer.dart';
+import 'package:effendy_bouquet/widgets/product_card.dart';
 
 class MyHomePage extends StatelessWidget {
   final String npm = '2306165793'; // NPM
@@ -10,9 +10,9 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
   final List<ItemHomepage> items = [
-    ItemHomepage("Lihat Daftar Produk", Icons.shop),
-    ItemHomepage("Tambah Produk", Icons.add),
-    ItemHomepage("Logout", Icons.logout),
+    ItemHomepage("All Product", Icons.shop, Colors.deepOrange),
+    ItemHomepage("Add Product", Icons.add, Colors.orange),
+    ItemHomepage("Logout", Icons.logout, Colors.yellow),
   ];
 
   @override
@@ -58,6 +58,7 @@ class MyHomePage extends StatelessWidget {
             Center(
               child: Column(
                 // Menyusun teks dan grid item secara vertikal.
+
                 children: [
                   // Menampilkan teks sambutan dengan gaya tebal dan ukuran 18.
                   const Padding(
@@ -99,8 +100,8 @@ class MyHomePage extends StatelessWidget {
 class InfoCard extends StatelessWidget {
   // Kartu informasi yang menampilkan title dan content.
 
-  final String title; // Judul kartu.
-  final String content; // Isi kartu.
+  final String title;  // Judul kartu.
+  final String content;  // Isi kartu.
 
   const InfoCard({super.key, required this.title, required this.content});
 
@@ -111,8 +112,7 @@ class InfoCard extends StatelessWidget {
       elevation: 2.0,
       child: Container(
         // Mengatur ukuran dan jarak di dalam kartu.
-        width: MediaQuery.of(context).size.width /
-            3.5, // menyesuaikan dengan lebar device yang digunakan.
+        width: MediaQuery.of(context).size.width / 3.5, // menyesuaikan dengan lebar device yang digunakan.
         padding: const EdgeInsets.all(16.0),
         // Menyusun title dan content secara vertikal.
         child: Column(

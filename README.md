@@ -1,3 +1,6 @@
+# ꧁🪷🌷 **Bouquet Effendy**🌸🌺꧂
+
+
 ## Tugas Individu 7 PBP 
 <details>
 
@@ -161,5 +164,54 @@ Dengan menggunakan fungsi-fungsi ini, kita bisa dengan mudah berpindah antar hal
 
 https://medium.com/@yogiwisesa/flutter-row-column-5aba99c74444
 
+
+</details>
+
+## Tugas Individu 9 PBP 
+<details>
+
+### Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
+Model sangat penting karena berfungsi untuk mengatur struktur data JSON yang dikirim atau diterima. Dengan menggunakan model kita dapat memastikan data memiliki format yang konsisten misalnya memastikan bahwa nilai `price` selalu berupa angka, bukan teks. Selain itu, model memungkinkan validasi otomatis, seperti memeriksa apakah semua data wajib, seperti nama produk atau price sudah diisi dengan benar.  
+
+Tanpa model, aplikasi memang tetap dapat berjalan tetapi risikonya menjadi lebih tinggi. Sebagai contoh, data yang diterima dalam format yang salah dapat menyebabkan error atau menghasilkan output yang tidak sesuai. Selain itu, tanpa model nantinya proses debugging menjadi lebih kompleks dan pengelolaan data dapat menjadi tidak teratur seiring bertambahnya ukuran dan kompleksitas aplikasi. Oleh karena itu, model membantu menjaga keamanan, keteraturan, dan kemudahan dalam pemeliharaan aplikasi.
+
+### Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+
+Library `http` di Flutter berfungsi untuk melakukan berbagai jenis permintaan HTTP seperti `GET`, `POST`, `PUT`, dan `DELETE`. Dengan library ini, aplikasi dapat berkomunikasi dengan server, seperti Django, melalui API. Tugas utamanya adalah mengirim data ke server dan menerima respons dalam format tertentu, seperti JSON atau XML.  
+
+Dalam implementasi pada tugas 9, library ini memungkinkan aplikasi Flutter mengelola proses seperti pengiriman data login, registrasi, atau produk ke Django, sekaligus menerima dan memproses respons dari server.
+
+### Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+`CookieRequest` digunakan untuk menyimpan token autentikasi yang dibutuhkan untuk memvalidasi setiap permintaan HTTP setelah pengguna berhasil login. Token ini juga harus tersedia di seluruh bagian aplikasi agar dapat digunakan pada semua permintaan HTTP ke server.
+
+### Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+
+1. *Input Data* -> Pengguna mengisi informasi melalui form di aplikasi, seperti form login atau form untuk menambah produk.
+2. *Pengiriman Data* -> Data yang telah diinput pengguna dikirimkan ke server Django menggunakan HTTP request melalui library http.
+3. *Pemrosesan Server* -> Django memproses permintaan tersebut, seperti memverifikasi data login atau menyimpan informasi produk lalu mengirimkan respons berupa JSON atau status hasil pemrosesan.
+4. *Penerimaan dan Tampilan di Flutter* -> Aplikasi Flutter menerima data JSON dari server, mengonversinya menjadi objek model, dan menampilkan hasilnya di UI dengan menggunakan widget.
+
+### Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+1. *Login*: Pengguna memasukkan username dan password di Flutter, dikirimkan ke Django dalam JSON. Django memverifikasi data lalu mengirimkan token autentikasi ke Flutter. Flutter menyimpan token dan menampilkan menu utama.
+2. *Register*: Data pendaftaran dikirim Flutter ke Django dalam JSON. Django memproses dan menyimpan data ke database lalu mengirimkan respons sukses atau token. Flutter menggunakan respons ini untuk masuk ke menu utama atau kembali ke login.
+3. *Logout*: Flutter mengirimkan permintaan logout ke Django untuk menghapus atau memblokir token. Django memprosesnya, dan Flutter menghapus token lokal lalu kembali ke layar login.
+
+Mekanismenya sederhana jadi flutter kirim data ke Django → Django proses → hasilnya dikirim kembali ke flutter buat ditampilin.
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+
+1. Membuat app `authentication` pada proyek Django awal kita dan menambahkan _login_, _register_, dan _logout_ pada `authentication/views.py`. Tidak lupa merouting url nya juga pada `authentication/urls.py`.
+2. Menambahkan routing url `authentication` pada `effendy_bouquet/urls.py`.
+    ```py
+    ...
+    path('auth/', include('authentication.urls')),
+    ```
+3. Meng-install `authentication` dan `corsheader` pada `effendy_bouquet/settings.py`.
+4. Menambahkan `create_product_flutter` pada `effendy-bouquet/main/views.py`
+4. Membuat model di Flutter untuk data yang akan dikirimkan dan diterima, seperti model untuk _login_, _product_, atau _user_. Dapat dilihat di direktori `.../lib`
+5. Mengelola alur UI di Flutter untuk menampilkan halaman _login_, _register_, menu utama, dll berdasarkan status autentikasi.
 
 </details>

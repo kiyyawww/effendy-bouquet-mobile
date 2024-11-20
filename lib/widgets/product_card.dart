@@ -1,64 +1,100 @@
+import 'package:effendy_bouquet/screens/list_productentry.dart';
+import 'package:effendy_bouquet/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:effendy_bouquet/screens/productentry_form.dart';
-// import 'package:effendy_bouquet/screens/menu.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ItemHomepage {
   final String name;
   final IconData icon;
+  final Color color;
 
-  ItemHomepage(this.name, this.icon);
+  ItemHomepage(this.name, this.icon, this.color);
 }
 
 class ItemCard extends StatelessWidget {
-  final ItemHomepage item;
+  // Menampilkan kartu dengan ikon dan nama.
 
-  const ItemCard(this.item, {super.key});
+  final ItemHomepage item; 
+  
+  const ItemCard(this.item, {super.key}); 
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+    
     return Material(
-      // Set the card's background color to yellow.
-      color: Colors.yellow,
+      // Menentukan warna latar belakang dari tema aplikasi.
+      color: item.color,
+      // Membuat sudut kartu melengkung.
       borderRadius: BorderRadius.circular(12),
-
+      
       child: InkWell(
-        onTap: () {
-          // Display a SnackBar when clicked.
+        // Aksi ketika kartu ditekan.
+        onTap: () async {
+          // Menampilkan pesan SnackBar saat kartu ditekan.
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-              content: Text(
-                "Kamu telah menekan tombol ${item.name}!",
-                style: const TextStyle(color: Colors.white), // white text color
-              ),
-              backgroundColor: Colors.orange, // Orange background color for SnackBar
-            ));
-          // Navigate to the appropriate route
-          if (item.name == "Tambah Produk") {
+            ..showSnackBar(
+              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!"))
+            );
+
+          // Navigate ke route yang sesuai (tergantung jenis tombol)
+          if (item.name == "Add Product") {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ProductEntryFormPage(),
-              ),
-            );
+                builder: (context) => const ProductEntryformPage(),
+              ));
+          } else if (item.name == "All Product") {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProductEntryPage()
+                  ),
+              );
+          } else if (item.name == "Logout") {
+              final response = await request.logout(
+                  "http://127.0.0.1:8000//auth/logout/");
+              String message = response["message"];
+              if (context.mounted) {
+                  if (response['status']) {
+                      String uname = response["username"];
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("$message Sampai jumpa, $uname."),
+                      ));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
+                  } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(message),
+                          ),
+                      );
+                  }
+              }
           }
         },
+        // Container untuk menyimpan Icon dan Text
         child: Container(
           padding: const EdgeInsets.all(8),
           child: Center(
             child: Column(
+              // Menyusun ikon dan teks di tengah kartu.
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   item.icon,
-                  color: Colors.orange, // Set icon color to orange
+                  color: Colors.white,
                   size: 30.0,
                 ),
                 const Padding(padding: EdgeInsets.all(3)),
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.orange), // Set text color to orange
+                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),

@@ -1,3 +1,4 @@
+import 'package:effendy_bouquet/screens/list_productentry.dart';
 import 'package:flutter/material.dart';
 import 'package:effendy_bouquet/screens/menu.dart';
 import 'package:effendy_bouquet/screens/productentry_form.dart';
@@ -27,41 +28,54 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(8)),
                 Text(
-                  "Ayo mulai berbelanja disini!",
-                  textAlign: TextAlign.center, // Center alignment
+                  "A corner full of worlds waiting for you!",
+                  textAlign: TextAlign.center, //align center
                   style: TextStyle(
-                    fontSize: 15.0, // Font size 15
-                    color: Colors.white, // White color
-                    fontWeight: FontWeight.normal, // Normal weight
+                    fontSize: 15,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ],
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text('Halaman Utama'),
-            // Bagian redirection ke MyHomePage
-            onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyHomePage(),
-                  ));
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.shop),
-            title: const Text('Tambah Produk'),
-            // Bagian redirection ke ProductEntryFormPage
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProductEntryFormPage(),
-                  ));
-            },
-          ),
+            ListTile(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text('Home'),
+              // Bagian redirection ke MyHomePage
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyHomePage(),
+                    ));
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('Add Product'),
+              // Bagian redirection ke ProductEntryformPage
+              onTap: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProductEntryformPage(),
+                    ));
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.shop),
+              title: const Text('All Product'),
+              onTap: () {
+                  // Route menu ke halaman product
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ProductEntryPage()),
+                  );
+              },
+            ),
         ],
       ),
     );
